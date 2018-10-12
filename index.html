@@ -1,0 +1,188 @@
+<!doctype html>
+<html>
+  <head>
+  	<meta charset="utf-8">
+    <title>Zombie Hack</title>
+    
+	<!-- make use of Makerstrap, because it is pretty -->
+    <link rel="stylesheet" href="https://s3-us-west-2.amazonaws.com/makerstrap/makerstrap.complete.min.css">
+
+    <!-- load jquery to make groovy stuff happen -->
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    
+	
+<style>
+	body {
+		margin:0;
+		padding:0;
+		z-index:-2;
+		background: #fff;
+	}
+	
+  /* a div to fill the background,we will use jquery to dynamically load a new background image */
+	#stage {
+		margin:0;
+		padding:0;
+		position:absolute;
+		z-index: -1; 
+		display: none;
+		top:0;
+		left:0;
+		width: 100%;
+		height: 100%;
+		background-image: url(https://farm2.staticflickr.com/1012/1038089969_a898dfd5d9_o.jpg);
+		background-size: cover;
+	}
+
+ 
+  /* Container for the photo credits, will also slowly appear with backgrounf fade in */
+	#credits {
+    	padding: 1em;
+		width:100%;
+		position: absolute;
+		bottom: 0;
+		left:0;
+		font-size: 12px;
+		color: #fff;
+		background-color:#000;
+		opacity:0.8;
+		text-align:center;
+		
+	}
+
+  /* Main content container; This is where Zoltar speaks */
+	#container {
+		margin: 2.5em auto;
+    font-size: 80%;
+		padding: 1em;
+		border: 8px solid #e3e3e3;   		
+		border-radius: 20px;
+		width: 80%;
+		min-height: 180px;
+   		background-image: url(https://farm4.staticflickr.com/3857/14211604750_ea4e23f9af_b.jpg);
+		background-color:#fff;
+		background-size: cover;
+		opacity:0.6;
+	}
+	
+  /* A container for your response; set display:none for opening to hide it, when you remix and edit this, sit to display:normal to make it appear */
+	#response {
+		display:none;
+	}
+	
+  /* formatting for the voice of Zoltar */
+	.zoltar {
+		margin:0 0 0.5em;
+		font-size: 90%;
+		font-weight: bold;
+    	font-style:italic;
+	}
+	
+	h2 {
+		margin-top:0;
+	}
+  
+  /* a hiddle image just to have a Thimble Thumbnail */
+  
+  img.thimble-icon {
+    display:none;
+  }
+	
+	</style>
+	
+
+<script type="text/javascript">
+
+	// number of seconds for the background to fade in, you can make 'em wait a long time
+	var fade_rate = 30; 
+  
+  // an array container for the category of topics, can be any number, or just use 1
+	var cats = ['Senitent code?', 'brains', 'bloggers fight back', 'code in my head', 'bitten', 'walkers'];
+  
+  // matches the background Image URL to each cats item
+  var imglinks  = ['https://farm1.staticflickr.com/175/441858611_671519dabb_o.jpg', 'https://farm7.staticflickr.com/6050/6282892279_13e2ed4b18_s.jpg', 
+                   'https://farm4.staticflickr.com/3084/2596483147_20a8602fb4_o.jpg',
+										'https://farm7.staticflickr.com/6098/6270257640_b74d55f25a_s.jpg',
+					'https://farm4.staticflickr.com/3435/4006626151_4e047cd68c_o.jpg',
+					'https://farm6.staticflickr.com/5546/10944600115_176a90dca4_o.jpg'
+];
+  
+  // text for each image to be added dynamically to the credits div
+  // it's nice to give credit and licensing, very nice
+  
+	var imgcredits = ['Creative Commons Zombies By Mark Lobo https://www.flickr.com/photos/g205/441858611',
+					  'Creative Commons Glamour Zombie by jamesrdoe <ahttps://www.flickr.com/photos/jamesrdoe/6282892279',
+					  'Creative Commons Zombie! by Dan Hollitser https://flic.kr/p/4XrDYP',
+					  'Creative Commons Brighton Zombie Walk 2011 by Heather Gilmour https://flic.kr/p/ay5H9m',
+					  'creative commons Zombie Puberty by Beth Jusino https://flic.kr/p/7741ne',
+					  'Creative Commons Houston Zombie by Thomas Hawk https://flic.kr/p/hF8WiZ'
+					  ];
+
+  	// pick an item from the cats array to be used to deifine which image
+  	// is used, use this first one to pick one at random.
+	var $img_id = Math.floor(Math.random() * cats.length);
+	
+  	// Or if you want a specific image to be used, enter it's value here
+  	// (keeping in mind that array counters start with 0). If you uncomment
+  	// this line it will over ride the random number
+	// $img_id = 3;
+	
+  
+  	// look out, here comes some jquery to create dynamic content
+	$(window).ready(function() {
+      
+		
+		// assign the background image for the main stage
+		$('#stage').css('background-image', 'url(' + imglinks[$img_id]  + ')');
+      
+      	// fadeIn rate in milliseconds for the background.
+		$('#stage').fadeIn(fade_rate *1000);
+		
+		// Construct the string for Zoltar's prompt
+		$('#prompt h2').text('Webmentions VS Zombies... ' + cats[$img_id] + '?');
+
+		// Use the text in the attribution array for the photo credits
+		$('#attrib').text(imgcredits[$img_id]);
+	
+	});
+</script>
+
+
+</head>
+<body>
+
+<div id="stage">
+<!-- this text is what is displayed above the credits text -->
+<div id="credits">Did you find something like this?<br />
+  
+<!-- the attribution line will be dynmically inserted via jQuery; it's MAGIC -->
+<span id="attrib"></span></div>
+</div>
+
+<div id="container">
+
+	<div id="prompt">
+		<h1 class="zoltar">What is your zombie story?...</h1>
+      
+      	<!-- the prompt line will be dynmically inserted inside the H2 tags via jQuery; it's more MAGIC -->
+		<h2></h2>
+      
+      <!-- edit the questions Zoltar might ask -->
+      <p style font size="1">It is 2045. 15 years ago the MIT MediaLab began experimenting with DNA based computing in an effort to create adaptive technology for the blind.The result was an augmented neural network that connected every sense to the internet. Media conglamates, excited by this technology ported it to their web platforms.</p><p>Gaming platforms became revolutionized. <i>Patient Zero</i>, a zombie first person shooter grew into a a three billion dollar enterprise.Until the computer base DNA began to learn.</p><p>No one knows when it happened, but the DNA, which was jacked into users, mutated with the Common Cold, and it learned to feed. Not on brains, but on code. Code now trapped in our brains. And there is only one way to get it out
+      
+    <p class="zoltar"> Find a picture of your zombie. Search Flickr for Creative Commons Images Here is a <a href="https://www.youtube.com/watch?v=WnEN5lgLZB8">video tutorial.</a> </p>
+		</div>
+	
+	<div id="response">
+		<h2>How I Did It...</h2>
+      
+      <!-- When you remix something from Zoltar, you should answer his
+			questions here. You do want to please him, correct? -->
+		<p>This is the place where you might add your response to Zoltar.</p>
+	</div>
+
+  <!-- hidden image to insert icon for thimble -->
+  <img src="https://farm3.staticflickr.com/2825/9096529967_899817f90e_n.jpg" alt="" class="thimble-icon" />
+</div><!--end #container -->
+  </body>
+</html>
